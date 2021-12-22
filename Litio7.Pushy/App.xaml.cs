@@ -9,11 +9,11 @@ namespace Litio7.Pushy
   {
     public static bool IsInForeground;
 
-    public App(GooglePlayServiceAvailable googleAvailability, IShowNotification notificationHandler)
+    public App(GooglePlayServiceAvailable googleAvailability)
     {
       InitializeComponent();
 
-      MainPage = new MainPage(googleAvailability, App.IsInForeground, notificationHandler);
+      MainPage = new MainPage(googleAvailability, App.IsInForeground);
     }
 
     protected override void OnStart()

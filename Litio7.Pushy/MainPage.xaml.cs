@@ -2,9 +2,10 @@
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
+[assembly: Dependency(typeof(Litio7.Pushy.MainPage))]
 namespace Litio7.Pushy
 {
-  public partial class MainPage : ContentPage
+  public partial class MainPage : ContentPage, IHandleMessage
   {
 
     public enum GooglePlayServiceAvailable
@@ -17,9 +18,10 @@ namespace Litio7.Pushy
     private Label myLabel = new Label();
     private StackLayout myStackLayout = new StackLayout();
     private bool isInForeground;
-    private IShowNotification showNotification;
+    private IShowNotification showNotificationService = DependencyService.Get<IShowNotification>();
+    private int numberOfNotifications;
 
-    public MainPage(GooglePlayServiceAvailable googleAvailability, bool isInForeground, IShowNotification showNotification)
+    public MainPage(GooglePlayServiceAvailable googleAvailability, bool isInForeground)
     {
       this.myLabel.Text = this.GetMessage(googleAvailability);
       this.myStackLayout.Children.Add(myLabel);
@@ -27,9 +29,36 @@ namespace Litio7.Pushy
       this.Content = myStackLayout;
 
       this.isInForeground = isInForeground;
-      this.showNotification = showNotification;
 
       InitializeComponent();
+    }
+
+    protected override void OnAppearing()
+    {
+      base.OnAppearing();
+
+      this.showNotificationService.RaiseNotificationReceivedEvent += ShowNotification;
+    }
+
+    protected override void OnDisappearing()
+    {
+      base.OnDisappearing();
+
+      this.showNotificationService.RaiseNotificationReceivedEvent -= ShowNotification;
+    }
+
+    private void ShowNotification(object sender, FirebaseNotificationArgs e)
+    {
+      var bodyWithNumber = e.Body + " Number: " + ++this.numberOfNotifications
+      if (App.IsInForeground)
+      {
+        HandleMessage(e.Title, bodyWithNumber);
+      }
+      else
+      {
+        Console.WriteLine("Activity alive but in the background, showing notification");
+        this.showNotificationService.ShowNotification(e.Title, bodyWithNumber);
+      }
     }
 
     private string GetMessage(GooglePlayServiceAvailable googleAvailability)
@@ -47,18 +76,10 @@ namespace Litio7.Pushy
     {
       /// The AndroidActivity can still exist, but not be shown on the UI.
       /// only show when the activity (this page) is on the UI
-      if (this.isInForeground)
+      MainThread.BeginInvokeOnMainThread(() =>
       {
-        MainThread.BeginInvokeOnMainThread(() => 
-        {
-          this.myLabel.Text = $"Received Message: {body}";
-        });
-      }
-      else
-      {
-        Console.WriteLine("Activity alive but in the background, showing notification");
-        this.showNotification.ShowNotification(title, body);
-      }
+        this.myLabel.Text = $"Received Message: {body}";
+      });
     }
   }
 }
