@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "37323551658",
+    "project_id": "litio7-pushy",
+    "storage_bucket": "litio7-pushy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37323551658:android:bd6ab6eb0efc6c76acb1d3",
+        "android_client_info": {
+          "package_name": "com.litio7.pushy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37323551658-gr9q5fgm8h903mi85lldohb673ugnvds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC5ilAJakpSOE1GZjEsebi6xtTGC2gstg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "37323551658-gr9q5fgm8h903mi85lldohb673ugnvds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
