@@ -16,6 +16,7 @@ namespace Litio7.Pushy.Droid
   [Activity(Label = "Litio7.Pushy", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
   public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity
   {
+    private const string TOPIC = "android_en-US_un_americas_unitedstates_uny";
     public Pushy.App App { get; private set; }
 
     protected override void OnCreate(Bundle savedInstanceState)
@@ -31,6 +32,7 @@ namespace Litio7.Pushy.Droid
 
       Console.WriteLine("InstanceId Token: " + FirebaseInstanceId.Instance.Token);
       FirebaseMessaging.Instance.GetToken();
+      FirebaseMessaging.Instance.SubscribeToTopic(TOPIC);
     }
 
     private GooglePlayServiceAvailable IsGooglePlayServicesAvailable()

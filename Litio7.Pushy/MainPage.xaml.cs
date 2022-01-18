@@ -49,7 +49,7 @@ namespace Litio7.Pushy
 
     private void ShowNotification(object sender, FirebaseNotificationArgs e)
     {
-      var bodyWithNumber = e.Body + " Number: " + ++this.numberOfNotifications
+      var bodyWithNumber = e.Body + " Number: " + ++this.numberOfNotifications;
       if (App.IsInForeground)
       {
         HandleMessage(e.Title, bodyWithNumber);
